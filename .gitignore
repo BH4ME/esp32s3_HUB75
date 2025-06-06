@@ -1,0 +1,19 @@
+# Build directory
+build/
+
+# IDE files
+.vscode/
+.idea/
+
+# ESP-IDF specific
+sdkconfig
+sdkconfig.old
+
+# Compiled files
+*.o
+*.d
+*.pyc
+__pycache__/
+
+# Other
+.DS_Store 

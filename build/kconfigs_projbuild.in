@@ -1,0 +1,6 @@
+source "E:/esp-idf/v5.5/esp-idf/components/bootloader/Kconfig.projbuild"
+source "E:/esp-idf/v5.5/esp-idf/components/esp_app_format/Kconfig.projbuild"
+source "E:/esp-idf/v5.5/esp-idf/components/esp_rom/Kconfig.projbuild"
+source "E:/esp-idf/v5.5/esp-idf/components/esptool_py/Kconfig.projbuild"
+source "E:/esp-idf/v5.5/esp-idf/components/partition_table/Kconfig.projbuild"
+source "E:/Documents/esp32/without-gfx/components/ESP32-HUB75-MatrixPanel-I2S-DMA/Kconfig.projbuild"

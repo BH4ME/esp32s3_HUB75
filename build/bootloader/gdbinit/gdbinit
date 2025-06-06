@@ -1,0 +1,2 @@
+source E:/Documents/esp32/without-gfx/build/bootloader/gdbinit/symbols
+source E:/Documents/esp32/without-gfx/build/bootloader/gdbinit/connect
