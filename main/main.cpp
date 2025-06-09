@@ -43,5 +43,9 @@ extern "C" void app_main() {
       ESP_LOGI("TASK", "系统运行时间: %d 秒", count++);
       vTaskDelay(pdMS_TO_TICKS(1000));  // 使用 pdMS_TO_TICKS 宏来转换时间
     }
-  }, "print_task", 2048, NULL, 5, NULL, 0);  // 固定在核心0上运行
+  }, "print_task", 4096, NULL, 5, NULL, 0);  // 固定在核心0上运行，增加栈大小到4096
+
+  while (1) {
+    vTaskDelay(pdMS_TO_TICKS(100));  // 添加100ms延时，让其他任务有机会运行
+  }
 }
