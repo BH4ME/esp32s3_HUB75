@@ -29,6 +29,31 @@ struct RGB {
 #define COLOR_YELLOW 0xFFE0 // RGB(255, 255, 0)
 #define COLOR_BLACK  0x0000 // RGB(0, 0, 0)
 
+// 调整颜色亮度
+uint32_t adjustColor(uint32_t color) {
+    // 提取RGB和Alpha值
+    uint8_t alpha = (color >> 24) & 0xFF;
+    uint8_t r = (color >> 16) & 0xFF;
+    uint8_t g = (color >> 8) & 0xFF;
+    uint8_t b = color & 0xFF;
+    
+    // 检查是否是白色（RGB都接近255）
+    if (r > 240 && g > 240 && b > 240) {
+        return color;  // 保持白色不变
+    }
+    
+    // 对于非白色，增加亮度但保持颜色关系
+    if (r > 0 || g > 0 || b > 0) {  // 只要有一个通道不为0
+        // 增加每个通道的亮度，但保持相对关系
+        if (r > 0) r = (r * 2.0 > 255) ? 255 : r * 2.0;
+        if (g > 0) g = (g * 2.0 > 255) ? 255 : g * 2.0;
+        if (b > 0) b = (b * 2.0 > 255) ? 255 : b * 2.0;
+    }
+    
+    // 重新组合颜色值
+    return (alpha << 24) | (r << 16) | (g << 8) | b;
+}
+
 // 生成波浪颜色
 RGB getWaveColor(int x, int y, float time) {
     // 使用正弦函数创建波浪效果
@@ -81,6 +106,9 @@ void animation_task(void *pvParameters) {
             for (int x = 0; x < EMOJI_WIDTH; x++) {
                 uint32_t pixel = fall_data[current_frame][y * EMOJI_WIDTH + x];
                 
+                // 调整颜色亮度
+                pixel = adjustColor(pixel);
+                
                 // 直接使用原始颜色值
                 dma_display->drawPixel(EMOJI_X_OFFSET + x, EMOJI_Y_OFFSET + y, pixel);
             }
@@ -125,10 +153,10 @@ extern "C" void app_main() {
         },
         HUB75_I2S_CFG::FM6124, // 使用 FM6126A 驱动
         false,    // double buffer
-        HUB75_I2S_CFG::HZ_16M,    // 使用16MHz时钟
+        HUB75_I2S_CFG::HZ_20M,    // 提高时钟频率到20MHz
         1,        // 减小 latch_blanking 到1
         true,     // clock phase
-        120,      // 刷新率120Hz
+        100,      // 降低刷新率到100Hz以提高亮度
         32        // 将颜色深度改为32位
     );
 
